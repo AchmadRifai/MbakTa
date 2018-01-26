@@ -1,0 +1,12 @@
+create database roti;use roti;
+create table menunya(kode varchar(25)primary key,nama varchar(40)not null,ket text not null,gbr text not null,harga int not null);
+create table persediaan(kode varchar(25)primary key,nama varchar(40)not null,sisa double not null,satuan text not null);
+create table bahan(menunya varchar(25)not null,persediaan varchar(25)not null,pakai float not null);
+alter table bahan add foreign key(menunya)references menunya(kode)on update cascade on delete cascade;
+alter table bahan add foreign key(persediaan)references persediaan(kode)on update cascade on delete cascade;
+create table pesanan(kode varchar(50)primary key,tgl date not null,nama varchar(40)not null,terkirim boolean not null,valid boolean not null,total int not null,byr int not null,kembali int not null);
+create table item_pesanan(pesanan varchar(50)not null,roti varchar(25)not null,jum int not null,satuan int not null,sub int not null);
+alter table item_pesanan add foreign key(pesanan)references pesanan(kode)on update cascade on delete cascade;
+alter table item_pesanan add foreign key(roti)references menunya(kode)on update cascade on delete cascade;
+create table pasok(bahan varchar(25)not null,tgl date not null,jum double not null);
+alter table pasok add foreign key(bahan)references persediaan(kode)on update cascade on delete cascade;
